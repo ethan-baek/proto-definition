@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package ledgers;
 
-option go_package = "github.com/ethan-baek/proto/ledgers";
+option go_package = "github.com/ethan-baek/proto-definition/ledgers";
 
 service LedgerService {
     rpc Deposit (DepositRequest) returns (DepositResponse) {}
