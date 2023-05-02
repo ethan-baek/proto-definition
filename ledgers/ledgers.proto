@@ -2,6 +2,8 @@ syntax = "proto3";
 
 package ledgers;
 
+import "google/protobuf/timestamp.proto";
+
 option go_package = "github.com/ethan-baek/proto-definition/ledgers";
 
 service LedgerService {
@@ -13,7 +15,7 @@ service LedgerService {
 }
 
 message DepositRequest {
-    string account_number = 1;
+    string account_id = 1;
     double amount = 2;
 }
 
@@ -22,8 +24,8 @@ message DepositResponse {
 }
 
 message TransferRequest {
-    string from_account_number = 1;
-    string to_account_number = 2;
+    string from_account_id = 1;
+    string to_account_id = 2;
     double amount = 3;
 }
 
@@ -32,7 +34,7 @@ message TransferResponse {
 }
 
 message WithdrawRequest {
-    string account_number = 1;
+    string account_id = 1;
     double amount = 2;
 }
 
@@ -41,7 +43,7 @@ message WithdrawResponse {
 }
 
 message GetBalanceRequest {
-    string account_number = 1;
+    string account_id = 1;
 }
 
 message GetBalanceResponse {
@@ -49,7 +51,9 @@ message GetBalanceResponse {
 }
 
 message GetTransactionHistoryRequest {
-    string account_number = 1;
+    string account_id = 1;
+    google.protobuf.Timestamp start_date = 2;
+    google.protobuf.Timestamp end_date = 3;
 }
 
 message GetTransactionHistoryResponse {
@@ -57,9 +61,9 @@ message GetTransactionHistoryResponse {
 }
 
 message Transaction {
-    string id = 1;
-    string account_number = 2;
+    string from_account_id = 1;
+    string to_account_id = 2;
     string type = 3;
     double amount = 4;
-    string timestamp = 5;
+    google.protobuf.Timestamp date = 5;
 }
