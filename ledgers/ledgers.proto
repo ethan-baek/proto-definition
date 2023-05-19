@@ -65,5 +65,6 @@ message Transaction {
     string to_account_id = 2;
     string type = 3;
     double amount = 4;
-    google.protobuf.Timestamp date = 5;
+    double balance = 5;
+    google.protobuf.Timestamp date = 6;
 }
