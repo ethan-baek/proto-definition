@@ -62,11 +62,11 @@ message OwnerOfResponse {
 }
 
 // Check the balance of an item.
-message BalanceRequest {
+message GetBalanceRequest {
   string item_id = 1;
 }
 
-message BalanceResponse {
+message GetBalanceResponse {
   double balance = 1;
 }
 
