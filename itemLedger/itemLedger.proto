@@ -28,7 +28,7 @@ message TransferRequest {
 }
 
 message TransferResponse {
-  bool success = 1;
+    string message = 1;
 }
 
 // Charge balance of an item.
@@ -39,7 +39,7 @@ message ChargeRequest {
 }
 
 message ChargeResponse {
-  bool success = 1;
+    string message = 1;
 }
 
 // Withdraw balance of an item.
@@ -49,7 +49,7 @@ message WithdrawRequest {
 }
 
 message WithdrawResponse {
-  bool success = 1;
+    string message = 1;
 }
 
 // Check the owner of an item.
@@ -76,5 +76,5 @@ message ReleaseRequest {
 }
 
 message ReleaseResponse {
-  bool success = 1;
+    string message = 1;
 }
