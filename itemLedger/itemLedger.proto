@@ -1,0 +1,80 @@
+syntax = "proto3";
+
+package itemledger;
+
+option go_package = "github.com/ethan-baek/proto-definition/itemLedger";
+
+// The item ledger service definition.
+service ItemLedger {
+  rpc Transfer (TransferRequest) returns (TransferResponse) {}
+  rpc Charge (ChargeRequest) returns (ChargeResponse) {}
+  rpc Withdraw (WithdrawRequest) returns (WithdrawResponse) {}
+  rpc OwnerOf (OwnerOfRequest) returns (OwnerOfResponse) {}
+  rpc Balance (BalanceRequest) returns (BalanceResponse) {}
+  rpc Release (ReleaseRequest) returns (ReleaseResponse) {}
+}
+
+// Item definition
+message Item {
+  string item_id = 1;
+  double price = 2;
+}
+
+// Transfer ownership of an item.
+message TransferRequest {
+  string from_user_id = 1;
+  string to_user_id = 2;
+  repeated Item items = 3;
+}
+
+message TransferResponse {
+  bool success = 1;
+}
+
+// Charge balance of an item.
+message ChargeRequest {
+  string user_id = 1;
+  string item_id = 2;
+  double price = 3;
+}
+
+message ChargeResponse {
+  bool success = 1;
+}
+
+// Withdraw balance of an item.
+message WithdrawRequest {
+  string item_id = 1;
+  double amount = 2;
+}
+
+message WithdrawResponse {
+  bool success = 1;
+}
+
+// Check the owner of an item.
+message OwnerOfRequest {
+  string item_id = 1;
+}
+
+message OwnerOfResponse {
+  string owner_id = 1;
+}
+
+// Check the balance of an item.
+message BalanceRequest {
+  string item_id = 1;
+}
+
+message BalanceResponse {
+  double balance = 1;
+}
+
+// Release an item.
+message ReleaseRequest {
+  string item_id = 1;
+}
+
+message ReleaseResponse {
+  bool success = 1;
+}
