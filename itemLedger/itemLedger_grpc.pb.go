@@ -19,12 +19,12 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	ItemLedger_Transfer_FullMethodName = "/itemledger.ItemLedger/Transfer"
-	ItemLedger_Charge_FullMethodName   = "/itemledger.ItemLedger/Charge"
-	ItemLedger_Withdraw_FullMethodName = "/itemledger.ItemLedger/Withdraw"
-	ItemLedger_OwnerOf_FullMethodName  = "/itemledger.ItemLedger/OwnerOf"
-	ItemLedger_Balance_FullMethodName  = "/itemledger.ItemLedger/Balance"
-	ItemLedger_Release_FullMethodName  = "/itemledger.ItemLedger/Release"
+	ItemLedger_Transfer_FullMethodName   = "/itemledger.ItemLedger/Transfer"
+	ItemLedger_Charge_FullMethodName     = "/itemledger.ItemLedger/Charge"
+	ItemLedger_Withdraw_FullMethodName   = "/itemledger.ItemLedger/Withdraw"
+	ItemLedger_OwnerOf_FullMethodName    = "/itemledger.ItemLedger/OwnerOf"
+	ItemLedger_GetBalance_FullMethodName = "/itemledger.ItemLedger/GetBalance"
+	ItemLedger_Release_FullMethodName    = "/itemledger.ItemLedger/Release"
 )
 
 // ItemLedgerClient is the client API for ItemLedger service.
@@ -35,7 +35,7 @@ type ItemLedgerClient interface {
 	Charge(ctx context.Context, in *ChargeRequest, opts ...grpc.CallOption) (*ChargeResponse, error)
 	Withdraw(ctx context.Context, in *WithdrawRequest, opts ...grpc.CallOption) (*WithdrawResponse, error)
 	OwnerOf(ctx context.Context, in *OwnerOfRequest, opts ...grpc.CallOption) (*OwnerOfResponse, error)
-	Balance(ctx context.Context, in *BalanceRequest, opts ...grpc.CallOption) (*BalanceResponse, error)
+	GetBalance(ctx context.Context, in *GetBalanceRequest, opts ...grpc.CallOption) (*GetBalanceResponse, error)
 	Release(ctx context.Context, in *ReleaseRequest, opts ...grpc.CallOption) (*ReleaseResponse, error)
 }
 
@@ -83,9 +83,9 @@ func (c *itemLedgerClient) OwnerOf(ctx context.Context, in *OwnerOfRequest, opts
 	return out, nil
 }
 
-func (c *itemLedgerClient) Balance(ctx context.Context, in *BalanceRequest, opts ...grpc.CallOption) (*BalanceResponse, error) {
-	out := new(BalanceResponse)
-	err := c.cc.Invoke(ctx, ItemLedger_Balance_FullMethodName, in, out, opts...)
+func (c *itemLedgerClient) GetBalance(ctx context.Context, in *GetBalanceRequest, opts ...grpc.CallOption) (*GetBalanceResponse, error) {
+	out := new(GetBalanceResponse)
+	err := c.cc.Invoke(ctx, ItemLedger_GetBalance_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -109,7 +109,7 @@ type ItemLedgerServer interface {
 	Charge(context.Context, *ChargeRequest) (*ChargeResponse, error)
 	Withdraw(context.Context, *WithdrawRequest) (*WithdrawResponse, error)
 	OwnerOf(context.Context, *OwnerOfRequest) (*OwnerOfResponse, error)
-	Balance(context.Context, *BalanceRequest) (*BalanceResponse, error)
+	GetBalance(context.Context, *GetBalanceRequest) (*GetBalanceResponse, error)
 	Release(context.Context, *ReleaseRequest) (*ReleaseResponse, error)
 	mustEmbedUnimplementedItemLedgerServer()
 }
@@ -130,8 +130,8 @@ func (UnimplementedItemLedgerServer) Withdraw(context.Context, *WithdrawRequest)
 func (UnimplementedItemLedgerServer) OwnerOf(context.Context, *OwnerOfRequest) (*OwnerOfResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method OwnerOf not implemented")
 }
-func (UnimplementedItemLedgerServer) Balance(context.Context, *BalanceRequest) (*BalanceResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Balance not implemented")
+func (UnimplementedItemLedgerServer) GetBalance(context.Context, *GetBalanceRequest) (*GetBalanceResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetBalance not implemented")
 }
 func (UnimplementedItemLedgerServer) Release(context.Context, *ReleaseRequest) (*ReleaseResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Release not implemented")
@@ -221,20 +221,20 @@ func _ItemLedger_OwnerOf_Handler(srv interface{}, ctx context.Context, dec func(
 	return interceptor(ctx, in, info, handler)
 }
 
-func _ItemLedger_Balance_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(BalanceRequest)
+func _ItemLedger_GetBalance_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetBalanceRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ItemLedgerServer).Balance(ctx, in)
+		return srv.(ItemLedgerServer).GetBalance(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: ItemLedger_Balance_FullMethodName,
+		FullMethod: ItemLedger_GetBalance_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ItemLedgerServer).Balance(ctx, req.(*BalanceRequest))
+		return srv.(ItemLedgerServer).GetBalance(ctx, req.(*GetBalanceRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -281,8 +281,8 @@ var ItemLedger_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _ItemLedger_OwnerOf_Handler,
 		},
 		{
-			MethodName: "Balance",
-			Handler:    _ItemLedger_Balance_Handler,
+			MethodName: "GetBalance",
+			Handler:    _ItemLedger_GetBalance_Handler,
 		},
 		{
 			MethodName: "Release",

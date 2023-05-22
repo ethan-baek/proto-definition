@@ -10,7 +10,7 @@ service ItemLedger {
   rpc Charge (ChargeRequest) returns (ChargeResponse) {}
   rpc Withdraw (WithdrawRequest) returns (WithdrawResponse) {}
   rpc OwnerOf (OwnerOfRequest) returns (OwnerOfResponse) {}
-  rpc Balance (BalanceRequest) returns (BalanceResponse) {}
+  rpc GetBalance (GetBalanceRequest) returns (GetBalanceResponse) {}
   rpc Release (ReleaseRequest) returns (ReleaseResponse) {}
 }
 
