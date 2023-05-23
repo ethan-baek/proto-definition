@@ -1,11 +1,11 @@
 syntax = "proto3";
 
-package itemledger;
+package item;
 
-option go_package = "github.com/ethan-baek/proto-definition/itemLedger";
+option go_package = "github.com/ethan-baek/proto-definition/ledgers/item";
 
 // The item ledger service definition.
-service ItemLedger {
+service ItemService {
   rpc Transfer (TransferRequest) returns (TransferResponse) {}
   rpc Charge (ChargeRequest) returns (ChargeResponse) {}
   rpc Withdraw (WithdrawRequest) returns (WithdrawResponse) {}

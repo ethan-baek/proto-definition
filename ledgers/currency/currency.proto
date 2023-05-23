@@ -1,12 +1,12 @@
 syntax = "proto3";
 
-package ledgers;
+package currency;
 
 import "google/protobuf/timestamp.proto";
 
-option go_package = "github.com/ethan-baek/proto-definition/ledgers";
+option go_package = "github.com/ethan-baek/proto-definition/ledgers/currency";
 
-service LedgerService {
+service CurrencyService {
     rpc Deposit (DepositRequest) returns (DepositResponse) {}
     rpc Transfer (TransferRequest) returns (TransferResponse) {}
     rpc Withdraw (WithdrawRequest) returns (WithdrawResponse) {}
