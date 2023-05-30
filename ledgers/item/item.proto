@@ -44,8 +44,9 @@ message ChargeResponse {
 
 // Withdraw balance of an item.
 message WithdrawRequest {
-  string item_id = 1;
-  double amount = 2;
+  string user_id = 1;
+  string item_id = 2;
+  double amount = 3;
 }
 
 message WithdrawResponse {
@@ -72,7 +73,8 @@ message GetBalanceResponse {
 
 // Release an item.
 message ReleaseRequest {
-  string item_id = 1;
+  string user_id = 1;
+  string item_id = 2;
 }
 
 message ReleaseResponse {
