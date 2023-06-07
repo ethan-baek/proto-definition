@@ -33,9 +33,10 @@ message TransferResponse {
 
 // Charge balance of an item.
 message ChargeRequest {
-  string user_id = 1;
-  string item_id = 2;
-  double price = 3;
+  string from_user_id = 1;
+  string to_user_id = 2;
+  string item_id = 3;
+  double price = 4;
 }
 
 message ChargeResponse {
