@@ -11,6 +11,7 @@ service ItemService {
   rpc Withdraw (WithdrawRequest) returns (WithdrawResponse) {}
   rpc OwnerOf (OwnerOfRequest) returns (OwnerOfResponse) {}
   rpc GetBalance (GetBalanceRequest) returns (GetBalanceResponse) {}
+  rpc GetBalanceOfUserItems (GetBalanceOfUserItemsRequest) returns (GetBalanceOfUserItemsResponse) {}
   rpc Release (ReleaseRequest) returns (ReleaseResponse) {}
 }
 

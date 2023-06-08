@@ -19,12 +19,13 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	ItemService_Transfer_FullMethodName   = "/item.ItemService/Transfer"
-	ItemService_Charge_FullMethodName     = "/item.ItemService/Charge"
-	ItemService_Withdraw_FullMethodName   = "/item.ItemService/Withdraw"
-	ItemService_OwnerOf_FullMethodName    = "/item.ItemService/OwnerOf"
-	ItemService_GetBalance_FullMethodName = "/item.ItemService/GetBalance"
-	ItemService_Release_FullMethodName    = "/item.ItemService/Release"
+	ItemService_Transfer_FullMethodName              = "/item.ItemService/Transfer"
+	ItemService_Charge_FullMethodName                = "/item.ItemService/Charge"
+	ItemService_Withdraw_FullMethodName              = "/item.ItemService/Withdraw"
+	ItemService_OwnerOf_FullMethodName               = "/item.ItemService/OwnerOf"
+	ItemService_GetBalance_FullMethodName            = "/item.ItemService/GetBalance"
+	ItemService_GetBalanceOfUserItems_FullMethodName = "/item.ItemService/GetBalanceOfUserItems"
+	ItemService_Release_FullMethodName               = "/item.ItemService/Release"
 )
 
 // ItemServiceClient is the client API for ItemService service.
@@ -36,6 +37,7 @@ type ItemServiceClient interface {
 	Withdraw(ctx context.Context, in *WithdrawRequest, opts ...grpc.CallOption) (*WithdrawResponse, error)
 	OwnerOf(ctx context.Context, in *OwnerOfRequest, opts ...grpc.CallOption) (*OwnerOfResponse, error)
 	GetBalance(ctx context.Context, in *GetBalanceRequest, opts ...grpc.CallOption) (*GetBalanceResponse, error)
+	GetBalanceOfUserItems(ctx context.Context, in *GetBalanceOfUserItemsRequest, opts ...grpc.CallOption) (*GetBalanceOfUserItemsResponse, error)
 	Release(ctx context.Context, in *ReleaseRequest, opts ...grpc.CallOption) (*ReleaseResponse, error)
 }
 
@@ -92,6 +94,15 @@ func (c *itemServiceClient) GetBalance(ctx context.Context, in *GetBalanceReques
 	return out, nil
 }
 
+func (c *itemServiceClient) GetBalanceOfUserItems(ctx context.Context, in *GetBalanceOfUserItemsRequest, opts ...grpc.CallOption) (*GetBalanceOfUserItemsResponse, error) {
+	out := new(GetBalanceOfUserItemsResponse)
+	err := c.cc.Invoke(ctx, ItemService_GetBalanceOfUserItems_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *itemServiceClient) Release(ctx context.Context, in *ReleaseRequest, opts ...grpc.CallOption) (*ReleaseResponse, error) {
 	out := new(ReleaseResponse)
 	err := c.cc.Invoke(ctx, ItemService_Release_FullMethodName, in, out, opts...)
@@ -110,6 +121,7 @@ type ItemServiceServer interface {
 	Withdraw(context.Context, *WithdrawRequest) (*WithdrawResponse, error)
 	OwnerOf(context.Context, *OwnerOfRequest) (*OwnerOfResponse, error)
 	GetBalance(context.Context, *GetBalanceRequest) (*GetBalanceResponse, error)
+	GetBalanceOfUserItems(context.Context, *GetBalanceOfUserItemsRequest) (*GetBalanceOfUserItemsResponse, error)
 	Release(context.Context, *ReleaseRequest) (*ReleaseResponse, error)
 	mustEmbedUnimplementedItemServiceServer()
 }
@@ -132,6 +144,9 @@ func (UnimplementedItemServiceServer) OwnerOf(context.Context, *OwnerOfRequest) 
 }
 func (UnimplementedItemServiceServer) GetBalance(context.Context, *GetBalanceRequest) (*GetBalanceResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetBalance not implemented")
+}
+func (UnimplementedItemServiceServer) GetBalanceOfUserItems(context.Context, *GetBalanceOfUserItemsRequest) (*GetBalanceOfUserItemsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetBalanceOfUserItems not implemented")
 }
 func (UnimplementedItemServiceServer) Release(context.Context, *ReleaseRequest) (*ReleaseResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Release not implemented")
@@ -239,6 +254,24 @@ func _ItemService_GetBalance_Handler(srv interface{}, ctx context.Context, dec f
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ItemService_GetBalanceOfUserItems_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetBalanceOfUserItemsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ItemServiceServer).GetBalanceOfUserItems(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ItemService_GetBalanceOfUserItems_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ItemServiceServer).GetBalanceOfUserItems(ctx, req.(*GetBalanceOfUserItemsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _ItemService_Release_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(ReleaseRequest)
 	if err := dec(in); err != nil {
@@ -283,6 +316,10 @@ var ItemService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetBalance",
 			Handler:    _ItemService_GetBalance_Handler,
+		},
+		{
+			MethodName: "GetBalanceOfUserItems",
+			Handler:    _ItemService_GetBalanceOfUserItems_Handler,
 		},
 		{
 			MethodName: "Release",
