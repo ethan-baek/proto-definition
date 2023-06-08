@@ -72,6 +72,14 @@ message GetBalanceResponse {
   double balance = 1;
 }
 
+message GetBalanceOfUserItemsRequest {
+  string user_id = 1;
+}
+
+message GetBalanceOfUserItemsResponse {
+  double balance = 1;
+}
+
 // Release an item.
 message ReleaseRequest {
   string user_id = 1;
