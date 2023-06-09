@@ -75,17 +75,20 @@ message Transaction {
 message DepositTransaction {
     string to_user_id = 1;
     double amount = 2;
+    double balance = 3;
 }
 
 message WithdrawTransaction {
     string from_user_id = 1;
     double amount = 2;
+    double balance = 3;
 }
 
 message TransferTransaction {
     string from_user_id = 1;
     string to_user_id = 2;
     double amount = 3;
+    double balance = 4;
 }
 
 message ChargeTransaction {
@@ -104,6 +107,7 @@ message ItemWithdrawTransaction {
     string from_item_id = 1;
     string to_user_id = 2;
     double amount = 3;
+    double balance = 4;
 }
 
 // Item definition

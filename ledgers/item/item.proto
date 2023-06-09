@@ -128,4 +128,5 @@ message ItemWithdrawTransaction {
   string from_item_id = 1;
   string to_user_id = 2;
   double amount = 3;
+  double balance = 4;
 }
