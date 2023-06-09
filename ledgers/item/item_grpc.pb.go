@@ -25,6 +25,7 @@ const (
 	ItemService_OwnerOf_FullMethodName                   = "/item.ItemService/OwnerOf"
 	ItemService_GetBalance_FullMethodName                = "/item.ItemService/GetBalance"
 	ItemService_GetBalanceOfUserItems_FullMethodName     = "/item.ItemService/GetBalanceOfUserItems"
+	ItemService_Release_FullMethodName                   = "/item.ItemService/Release"
 	ItemService_GetItemTransactionHistory_FullMethodName = "/item.ItemService/GetItemTransactionHistory"
 )
 
@@ -38,6 +39,7 @@ type ItemServiceClient interface {
 	OwnerOf(ctx context.Context, in *OwnerOfRequest, opts ...grpc.CallOption) (*OwnerOfResponse, error)
 	GetBalance(ctx context.Context, in *GetBalanceRequest, opts ...grpc.CallOption) (*GetBalanceResponse, error)
 	GetBalanceOfUserItems(ctx context.Context, in *GetBalanceOfUserItemsRequest, opts ...grpc.CallOption) (*GetBalanceOfUserItemsResponse, error)
+	Release(ctx context.Context, in *ReleaseRequest, opts ...grpc.CallOption) (*ReleaseResponse, error)
 	GetItemTransactionHistory(ctx context.Context, in *GetItemTransactionHistoryRequest, opts ...grpc.CallOption) (*GetItemTransactionHistoryResponse, error)
 }
 
@@ -103,6 +105,15 @@ func (c *itemServiceClient) GetBalanceOfUserItems(ctx context.Context, in *GetBa
 	return out, nil
 }
 
+func (c *itemServiceClient) Release(ctx context.Context, in *ReleaseRequest, opts ...grpc.CallOption) (*ReleaseResponse, error) {
+	out := new(ReleaseResponse)
+	err := c.cc.Invoke(ctx, ItemService_Release_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *itemServiceClient) GetItemTransactionHistory(ctx context.Context, in *GetItemTransactionHistoryRequest, opts ...grpc.CallOption) (*GetItemTransactionHistoryResponse, error) {
 	out := new(GetItemTransactionHistoryResponse)
 	err := c.cc.Invoke(ctx, ItemService_GetItemTransactionHistory_FullMethodName, in, out, opts...)
@@ -122,6 +133,7 @@ type ItemServiceServer interface {
 	OwnerOf(context.Context, *OwnerOfRequest) (*OwnerOfResponse, error)
 	GetBalance(context.Context, *GetBalanceRequest) (*GetBalanceResponse, error)
 	GetBalanceOfUserItems(context.Context, *GetBalanceOfUserItemsRequest) (*GetBalanceOfUserItemsResponse, error)
+	Release(context.Context, *ReleaseRequest) (*ReleaseResponse, error)
 	GetItemTransactionHistory(context.Context, *GetItemTransactionHistoryRequest) (*GetItemTransactionHistoryResponse, error)
 	mustEmbedUnimplementedItemServiceServer()
 }
@@ -147,6 +159,9 @@ func (UnimplementedItemServiceServer) GetBalance(context.Context, *GetBalanceReq
 }
 func (UnimplementedItemServiceServer) GetBalanceOfUserItems(context.Context, *GetBalanceOfUserItemsRequest) (*GetBalanceOfUserItemsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetBalanceOfUserItems not implemented")
+}
+func (UnimplementedItemServiceServer) Release(context.Context, *ReleaseRequest) (*ReleaseResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Release not implemented")
 }
 func (UnimplementedItemServiceServer) GetItemTransactionHistory(context.Context, *GetItemTransactionHistoryRequest) (*GetItemTransactionHistoryResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetItemTransactionHistory not implemented")
@@ -272,6 +287,24 @@ func _ItemService_GetBalanceOfUserItems_Handler(srv interface{}, ctx context.Con
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ItemService_Release_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ReleaseRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ItemServiceServer).Release(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ItemService_Release_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ItemServiceServer).Release(ctx, req.(*ReleaseRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _ItemService_GetItemTransactionHistory_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetItemTransactionHistoryRequest)
 	if err := dec(in); err != nil {
@@ -320,6 +353,10 @@ var ItemService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetBalanceOfUserItems",
 			Handler:    _ItemService_GetBalanceOfUserItems_Handler,
+		},
+		{
+			MethodName: "Release",
+			Handler:    _ItemService_Release_Handler,
 		},
 		{
 			MethodName: "GetItemTransactionHistory",

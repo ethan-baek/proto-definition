@@ -14,6 +14,7 @@ service ItemService {
   rpc OwnerOf (OwnerOfRequest) returns (OwnerOfResponse) {}
   rpc GetBalance (GetBalanceRequest) returns (GetBalanceResponse) {}
   rpc GetBalanceOfUserItems (GetBalanceOfUserItemsRequest) returns (GetBalanceOfUserItemsResponse) {}
+  rpc Release (ReleaseRequest) returns (ReleaseResponse) {}
   rpc GetItemTransactionHistory (GetItemTransactionHistoryRequest) returns (GetItemTransactionHistoryResponse) {}
 }
 
@@ -83,8 +84,17 @@ message GetBalanceOfUserItemsResponse {
   double balance = 1;
 }
 
-message GetItemTransactionHistoryRequest {
+message ReleaseRequest {
   string user_id = 1;
+  string item_id = 2;
+}
+
+message ReleaseResponse {
+    string message = 1;
+}
+
+message GetItemTransactionHistoryRequest {
+  string item_id = 1;
   google.protobuf.Timestamp start_date = 2;
   google.protobuf.Timestamp end_date = 3;
 }
