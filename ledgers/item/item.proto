@@ -2,17 +2,19 @@ syntax = "proto3";
 
 package item;
 
+import "google/protobuf/timestamp.proto";
+
 option go_package = "github.com/ethan-baek/proto-definition/ledgers/item";
 
 // The item ledger service definition.
 service ItemService {
-  rpc Transfer (TransferRequest) returns (TransferResponse) {}
+  rpc Sell (SellRequest) returns (SellResponse) {}
   rpc Charge (ChargeRequest) returns (ChargeResponse) {}
   rpc Withdraw (WithdrawRequest) returns (WithdrawResponse) {}
   rpc OwnerOf (OwnerOfRequest) returns (OwnerOfResponse) {}
   rpc GetBalance (GetBalanceRequest) returns (GetBalanceResponse) {}
   rpc GetBalanceOfUserItems (GetBalanceOfUserItemsRequest) returns (GetBalanceOfUserItemsResponse) {}
-  rpc Release (ReleaseRequest) returns (ReleaseResponse) {}
+  rpc GetItemTransactionHistory (GetItemTransactionHistoryRequest) returns (GetItemTransactionHistoryResponse) {}
 }
 
 // Item definition
@@ -22,13 +24,13 @@ message Item {
 }
 
 // Transfer ownership of an item.
-message TransferRequest {
+message SellRequest {
   string from_user_id = 1;
   string to_user_id = 2;
   repeated Item items = 3;
 }
 
-message TransferResponse {
+message SellResponse {
     string message = 1;
 }
 
@@ -81,12 +83,39 @@ message GetBalanceOfUserItemsResponse {
   double balance = 1;
 }
 
-// Release an item.
-message ReleaseRequest {
+message GetItemTransactionHistoryRequest {
   string user_id = 1;
-  string item_id = 2;
+  google.protobuf.Timestamp start_date = 2;
+  google.protobuf.Timestamp end_date = 3;
 }
 
-message ReleaseResponse {
-    string message = 1;
+message GetItemTransactionHistoryResponse {
+  repeated ItemTransaction transactions = 1;
+}
+
+message ItemTransaction {
+  google.protobuf.Timestamp date = 1;
+  oneof transaction_detail {
+      ChargeTransaction charge_transaction = 2;
+      SellTransaction sell_transaction = 3;
+      ItemWithdrawTransaction item_withdraw_transaction = 4;
+  }
+}
+
+message ChargeTransaction {
+  string from_user_id = 1;
+  string to_item_id = 2;
+  double amount = 3;
+}
+
+message SellTransaction {
+  string from_user_id = 1;
+  string to_user_id = 2;
+  Item item = 3;
+}
+
+message ItemWithdrawTransaction {
+  string from_item_id = 1;
+  string to_user_id = 2;
+  double amount = 3;
 }

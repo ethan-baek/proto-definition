@@ -19,26 +19,26 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	ItemService_Transfer_FullMethodName              = "/item.ItemService/Transfer"
-	ItemService_Charge_FullMethodName                = "/item.ItemService/Charge"
-	ItemService_Withdraw_FullMethodName              = "/item.ItemService/Withdraw"
-	ItemService_OwnerOf_FullMethodName               = "/item.ItemService/OwnerOf"
-	ItemService_GetBalance_FullMethodName            = "/item.ItemService/GetBalance"
-	ItemService_GetBalanceOfUserItems_FullMethodName = "/item.ItemService/GetBalanceOfUserItems"
-	ItemService_Release_FullMethodName               = "/item.ItemService/Release"
+	ItemService_Sell_FullMethodName                      = "/item.ItemService/Sell"
+	ItemService_Charge_FullMethodName                    = "/item.ItemService/Charge"
+	ItemService_Withdraw_FullMethodName                  = "/item.ItemService/Withdraw"
+	ItemService_OwnerOf_FullMethodName                   = "/item.ItemService/OwnerOf"
+	ItemService_GetBalance_FullMethodName                = "/item.ItemService/GetBalance"
+	ItemService_GetBalanceOfUserItems_FullMethodName     = "/item.ItemService/GetBalanceOfUserItems"
+	ItemService_GetItemTransactionHistory_FullMethodName = "/item.ItemService/GetItemTransactionHistory"
 )
 
 // ItemServiceClient is the client API for ItemService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type ItemServiceClient interface {
-	Transfer(ctx context.Context, in *TransferRequest, opts ...grpc.CallOption) (*TransferResponse, error)
+	Sell(ctx context.Context, in *SellRequest, opts ...grpc.CallOption) (*SellResponse, error)
 	Charge(ctx context.Context, in *ChargeRequest, opts ...grpc.CallOption) (*ChargeResponse, error)
 	Withdraw(ctx context.Context, in *WithdrawRequest, opts ...grpc.CallOption) (*WithdrawResponse, error)
 	OwnerOf(ctx context.Context, in *OwnerOfRequest, opts ...grpc.CallOption) (*OwnerOfResponse, error)
 	GetBalance(ctx context.Context, in *GetBalanceRequest, opts ...grpc.CallOption) (*GetBalanceResponse, error)
 	GetBalanceOfUserItems(ctx context.Context, in *GetBalanceOfUserItemsRequest, opts ...grpc.CallOption) (*GetBalanceOfUserItemsResponse, error)
-	Release(ctx context.Context, in *ReleaseRequest, opts ...grpc.CallOption) (*ReleaseResponse, error)
+	GetItemTransactionHistory(ctx context.Context, in *GetItemTransactionHistoryRequest, opts ...grpc.CallOption) (*GetItemTransactionHistoryResponse, error)
 }
 
 type itemServiceClient struct {
@@ -49,9 +49,9 @@ func NewItemServiceClient(cc grpc.ClientConnInterface) ItemServiceClient {
 	return &itemServiceClient{cc}
 }
 
-func (c *itemServiceClient) Transfer(ctx context.Context, in *TransferRequest, opts ...grpc.CallOption) (*TransferResponse, error) {
-	out := new(TransferResponse)
-	err := c.cc.Invoke(ctx, ItemService_Transfer_FullMethodName, in, out, opts...)
+func (c *itemServiceClient) Sell(ctx context.Context, in *SellRequest, opts ...grpc.CallOption) (*SellResponse, error) {
+	out := new(SellResponse)
+	err := c.cc.Invoke(ctx, ItemService_Sell_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -103,9 +103,9 @@ func (c *itemServiceClient) GetBalanceOfUserItems(ctx context.Context, in *GetBa
 	return out, nil
 }
 
-func (c *itemServiceClient) Release(ctx context.Context, in *ReleaseRequest, opts ...grpc.CallOption) (*ReleaseResponse, error) {
-	out := new(ReleaseResponse)
-	err := c.cc.Invoke(ctx, ItemService_Release_FullMethodName, in, out, opts...)
+func (c *itemServiceClient) GetItemTransactionHistory(ctx context.Context, in *GetItemTransactionHistoryRequest, opts ...grpc.CallOption) (*GetItemTransactionHistoryResponse, error) {
+	out := new(GetItemTransactionHistoryResponse)
+	err := c.cc.Invoke(ctx, ItemService_GetItemTransactionHistory_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -116,13 +116,13 @@ func (c *itemServiceClient) Release(ctx context.Context, in *ReleaseRequest, opt
 // All implementations must embed UnimplementedItemServiceServer
 // for forward compatibility
 type ItemServiceServer interface {
-	Transfer(context.Context, *TransferRequest) (*TransferResponse, error)
+	Sell(context.Context, *SellRequest) (*SellResponse, error)
 	Charge(context.Context, *ChargeRequest) (*ChargeResponse, error)
 	Withdraw(context.Context, *WithdrawRequest) (*WithdrawResponse, error)
 	OwnerOf(context.Context, *OwnerOfRequest) (*OwnerOfResponse, error)
 	GetBalance(context.Context, *GetBalanceRequest) (*GetBalanceResponse, error)
 	GetBalanceOfUserItems(context.Context, *GetBalanceOfUserItemsRequest) (*GetBalanceOfUserItemsResponse, error)
-	Release(context.Context, *ReleaseRequest) (*ReleaseResponse, error)
+	GetItemTransactionHistory(context.Context, *GetItemTransactionHistoryRequest) (*GetItemTransactionHistoryResponse, error)
 	mustEmbedUnimplementedItemServiceServer()
 }
 
@@ -130,8 +130,8 @@ type ItemServiceServer interface {
 type UnimplementedItemServiceServer struct {
 }
 
-func (UnimplementedItemServiceServer) Transfer(context.Context, *TransferRequest) (*TransferResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Transfer not implemented")
+func (UnimplementedItemServiceServer) Sell(context.Context, *SellRequest) (*SellResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Sell not implemented")
 }
 func (UnimplementedItemServiceServer) Charge(context.Context, *ChargeRequest) (*ChargeResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Charge not implemented")
@@ -148,8 +148,8 @@ func (UnimplementedItemServiceServer) GetBalance(context.Context, *GetBalanceReq
 func (UnimplementedItemServiceServer) GetBalanceOfUserItems(context.Context, *GetBalanceOfUserItemsRequest) (*GetBalanceOfUserItemsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetBalanceOfUserItems not implemented")
 }
-func (UnimplementedItemServiceServer) Release(context.Context, *ReleaseRequest) (*ReleaseResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Release not implemented")
+func (UnimplementedItemServiceServer) GetItemTransactionHistory(context.Context, *GetItemTransactionHistoryRequest) (*GetItemTransactionHistoryResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetItemTransactionHistory not implemented")
 }
 func (UnimplementedItemServiceServer) mustEmbedUnimplementedItemServiceServer() {}
 
@@ -164,20 +164,20 @@ func RegisterItemServiceServer(s grpc.ServiceRegistrar, srv ItemServiceServer) {
 	s.RegisterService(&ItemService_ServiceDesc, srv)
 }
 
-func _ItemService_Transfer_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(TransferRequest)
+func _ItemService_Sell_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SellRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ItemServiceServer).Transfer(ctx, in)
+		return srv.(ItemServiceServer).Sell(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: ItemService_Transfer_FullMethodName,
+		FullMethod: ItemService_Sell_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ItemServiceServer).Transfer(ctx, req.(*TransferRequest))
+		return srv.(ItemServiceServer).Sell(ctx, req.(*SellRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -272,20 +272,20 @@ func _ItemService_GetBalanceOfUserItems_Handler(srv interface{}, ctx context.Con
 	return interceptor(ctx, in, info, handler)
 }
 
-func _ItemService_Release_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ReleaseRequest)
+func _ItemService_GetItemTransactionHistory_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetItemTransactionHistoryRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ItemServiceServer).Release(ctx, in)
+		return srv.(ItemServiceServer).GetItemTransactionHistory(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: ItemService_Release_FullMethodName,
+		FullMethod: ItemService_GetItemTransactionHistory_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ItemServiceServer).Release(ctx, req.(*ReleaseRequest))
+		return srv.(ItemServiceServer).GetItemTransactionHistory(ctx, req.(*GetItemTransactionHistoryRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -298,8 +298,8 @@ var ItemService_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*ItemServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "Transfer",
-			Handler:    _ItemService_Transfer_Handler,
+			MethodName: "Sell",
+			Handler:    _ItemService_Sell_Handler,
 		},
 		{
 			MethodName: "Charge",
@@ -322,8 +322,8 @@ var ItemService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _ItemService_GetBalanceOfUserItems_Handler,
 		},
 		{
-			MethodName: "Release",
-			Handler:    _ItemService_Release_Handler,
+			MethodName: "GetItemTransactionHistory",
+			Handler:    _ItemService_GetItemTransactionHistory_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

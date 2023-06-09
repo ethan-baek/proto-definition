@@ -61,20 +61,53 @@ message GetTransactionHistoryResponse {
 }
 
 message Transaction {
-    string from_id = 1;
-    string to_id = 2;
-    google.protobuf.Timestamp date = 3;
+    google.protobuf.Timestamp date = 1;
     oneof transaction_detail {
-        CurrencyTransfer currency_transfer = 4;
-        ItemTransfer item_transfer = 5;
+        DepositTransaction deposit_transaction = 2;
+        WithdrawTransaction withdraw_transaction = 3;
+        TransferTransaction transfer_transaction = 4;
+        ChargeTransaction charge_transaction = 5;
+        SellTransaction sell_transaction = 6;
+        ItemWithdrawTransaction item_withdraw_transaction = 7;
     }
 }
 
-message CurrencyTransfer {
-    double amount = 1;
-    double balance = 2;
+message DepositTransaction {
+    string to_user_id = 1;
+    double amount = 2;
 }
 
-message ItemTransfer {
-    string item_id = 1;
+message WithdrawTransaction {
+    string from_user_id = 1;
+    double amount = 2;
 }
+
+message TransferTransaction {
+    string from_user_id = 1;
+    string to_user_id = 2;
+    double amount = 3;
+}
+
+message ChargeTransaction {
+    string from_user_id = 1;
+    string to_item_id = 2;
+    double amount = 3;
+}
+
+message SellTransaction {
+    string from_user_id = 1;
+    string to_user_id = 2;
+    Item item = 3;
+}
+
+message ItemWithdrawTransaction {
+    string from_item_id = 1;
+    string to_user_id = 2;
+    double amount = 3;
+}
+
+// Item definition
+message Item {
+    string item_id = 1;
+    double price = 2;
+  }
