@@ -116,12 +116,14 @@ message ChargeTransaction {
   string from_user_id = 1;
   string to_item_id = 2;
   double amount = 3;
+  double balance = 4;
 }
 
 message SellTransaction {
   string from_user_id = 1;
   string to_user_id = 2;
   repeated Item items = 3;
+  double balance = 4;
 }
 
 message ItemWithdrawTransaction {
