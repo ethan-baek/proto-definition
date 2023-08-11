@@ -95,6 +95,7 @@ message ChargeTransaction {
     string from_user_id = 1;
     string to_item_id = 2;
     uint64 amount = 3;
+    uint64 balance = 4;
 }
 
 message SellTransaction {
