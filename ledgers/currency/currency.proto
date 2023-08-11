@@ -16,7 +16,7 @@ service CurrencyService {
 
 message DepositRequest {
     string user_id = 1;
-    double amount = 2;
+    uint64 amount = 2;
 }
 
 message DepositResponse {
@@ -26,7 +26,7 @@ message DepositResponse {
 message TransferRequest {
     string from_user_id = 1;
     string to_user_id = 2;
-    double amount = 3;
+    uint64 amount = 3;
 }
 
 message TransferResponse {
@@ -35,7 +35,7 @@ message TransferResponse {
 
 message WithdrawRequest {
     string user_id = 1;
-    double amount = 2;
+    uint64 amount = 2;
 }
 
 message WithdrawResponse {
@@ -47,7 +47,7 @@ message GetBalanceRequest {
 }
 
 message GetBalanceResponse {
-    double balance = 1;
+    uint64 balance = 1;
 }
 
 message GetTransactionHistoryRequest {
@@ -74,46 +74,45 @@ message Transaction {
 
 message DepositTransaction {
     string to_user_id = 1;
-    double amount = 2;
-    double balance = 3;
+    uint64 amount = 2;
+    uint64 balance = 3;
 }
 
 message WithdrawTransaction {
     string from_user_id = 1;
-    double amount = 2;
-    double balance = 3;
+    uint64 amount = 2;
+    uint64 balance = 3;
 }
 
 message TransferTransaction {
     string from_user_id = 1;
     string to_user_id = 2;
-    double amount = 3;
-    double balance = 4;
+    uint64 amount = 3;
+    uint64 balance = 4;
 }
 
 message ChargeTransaction {
     string from_user_id = 1;
     string to_item_id = 2;
-    double amount = 3;
-    double balance = 4;
+    uint64 amount = 3;
 }
 
 message SellTransaction {
     string from_user_id = 1;
     string to_user_id = 2;
     repeated Item items = 3;
-    double balance = 4;
+    uint64 balance = 4;
 }
 
 message ItemWithdrawTransaction {
     string from_item_id = 1;
     string to_user_id = 2;
-    double amount = 3;
-    double balance = 4;
+    uint64 amount = 3;
+    uint64 balance = 4;
 }
 
 // Item definition
 message Item {
     string item_id = 1;
-    double price = 2;
+    uint64 price = 2;
   }

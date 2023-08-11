@@ -21,7 +21,7 @@ service ItemService {
 // Item definition
 message Item {
   string item_id = 1;
-  double price = 2;
+  uint64 price = 2;
 }
 
 // Transfer ownership of an item.
@@ -40,7 +40,7 @@ message ChargeRequest {
   string from_user_id = 1;
   string to_user_id = 2;
   string item_id = 3;
-  double price = 4;
+  uint64 price = 4;
 }
 
 message ChargeResponse {
@@ -51,7 +51,7 @@ message ChargeResponse {
 message WithdrawRequest {
   string user_id = 1;
   string item_id = 2;
-  double amount = 3;
+  uint64 amount = 3;
 }
 
 message WithdrawResponse {
@@ -73,7 +73,7 @@ message GetBalanceRequest {
 }
 
 message GetBalanceResponse {
-  double balance = 1;
+  uint64 balance = 1;
 }
 
 message GetBalanceOfUserItemsRequest {
@@ -81,7 +81,7 @@ message GetBalanceOfUserItemsRequest {
 }
 
 message GetBalanceOfUserItemsResponse {
-  double balance = 1;
+  uint64 balance = 1;
 }
 
 message ReleaseRequest {
@@ -115,20 +115,20 @@ message ItemTransaction {
 message ChargeTransaction {
   string from_user_id = 1;
   string to_item_id = 2;
-  double amount = 3;
-  double balance = 4;
+  uint64 amount = 3;
+  uint64 balance = 4;
 }
 
 message SellTransaction {
   string from_user_id = 1;
   string to_user_id = 2;
   repeated Item items = 3;
-  double balance = 4;
+  uint64 balance = 4;
 }
 
 message ItemWithdrawTransaction {
   string from_item_id = 1;
   string to_user_id = 2;
-  double amount = 3;
-  double balance = 4;
+  uint64 amount = 3;
+  uint64 balance = 4;
 }
